@@ -28,7 +28,7 @@ namespace UnitOfWorkCrud.Services
             
             var result = await _uow.Name.GetAllAsync();
             var user = _mapper.Map<IEnumerable<UserModel>>(result);
-            if (result == null)
+            if (user == null)
             {
                 return null;
 
@@ -54,6 +54,30 @@ namespace UnitOfWorkCrud.Services
             }
             
            
+        }
+
+        public async Task<UserModel> GetSingleUser(int id)
+        {
+            var result = await _uow.Name.GetById(id);
+            var user = _mapper.Map<UserModel>(result);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
+            
+        }
+
+
+        public async Task<IEnumerable<UserModel>> FilerUserByName(string Name)
+        {
+            var result = await _uow.Name.GetGeneric<UserModel>(a => a.Name== Name);
+            var user = _mapper.Map<IEnumerable<UserModel>>(result);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
         }
     }
 }

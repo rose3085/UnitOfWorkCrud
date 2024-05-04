@@ -29,29 +29,24 @@ namespace UnitOfWorkCrud.Repository
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-           return await _db.ToListAsync();
+            return await _db.ToListAsync();
+        }
+        public async Task<T> GetById(int id)
+        {
+
+            return await _db.FindAsync(id);
         }
 
-        //public async Task<T> Get(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
-        //{
-        //    IQueryable<T> query = _db;
-        //    if (include != null)
-        //    {
-        //        query = include(query);
-        //    }
-
-        //    return await query.AsNoTracking().FirstOrDefaultAsync(expression);
-        //}
-
-
-        //public async Task<T> GetAll(Expression<Func<T, bool>> expression = null, List<string> includes = null)
-        //{
-        //    return await _db.FirstAsync(expression);
-        //}
-
-        public Task<T> GetById(int id)
+        public async Task<IEnumerable<T>> GetGeneric<T>(Expression<Func<T, bool>> filter = null) where T : class
         {
-            throw new NotImplementedException();
+            //IQueryable to apply where clause
+            IQueryable<T> query = _context.Set<T>();
+            if (filter != null)
+            {
+                query = query.Where(filter);
+
+            }
+            return await query.ToListAsync();
         }
     }
 }

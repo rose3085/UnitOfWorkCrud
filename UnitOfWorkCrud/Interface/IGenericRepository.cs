@@ -6,9 +6,13 @@ namespace UnitOfWorkCrud.Interface
     {
 
         Task<T> GetById(int id);
-        //Task<T> GetAll(Expression<Func<T, bool>> expression = null,List<string>includes = null);
         Task AddUser(T entities);
         Task<IEnumerable<T>> GetAllAsync();
+
+
+        // to get somehting without id using Generic
+        // to use lambda expression we need Generic function
+        Task<IEnumerable<T>> GetGeneric<T>(Expression<Func<T, bool>> filter = null) where T : class;
 
     }
 }

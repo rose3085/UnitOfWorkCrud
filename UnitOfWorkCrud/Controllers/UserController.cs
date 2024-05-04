@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UnitOfWorkCrud.DTO;
 using UnitOfWorkCrud.Interface;
@@ -11,16 +12,20 @@ namespace UnitOfWorkCrud.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+            IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [Route("AddUser")]
         public async Task<ActionResult<UserModel>> AddUser(UserDto model)
         {
+            //var users = _mapper.Map<UserModel>(model);
             var result = await _userService.AddNewUser(model);
             if (result != null)
             {

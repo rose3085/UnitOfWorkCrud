@@ -14,5 +14,8 @@ namespace UnitOfWorkCrud.Interface
         // to use lambda expression we need Generic function
         Task<IEnumerable<T>> GetGeneric<T>(Expression<Func<T, bool>> filter = null) where T : class;
 
+        void DeleteRange(IEnumerable<T> entities);
+        void Update(T entity);
+
     }
 }

@@ -39,7 +39,7 @@ namespace UnitOfWorkCrud.Repository
 
         public async Task<IEnumerable<T>> GetGeneric<T>(Expression<Func<T, bool>> filter = null) where T : class
         {
-            //IQueryable to apply where clause
+            
             IQueryable<T> query = _context.Set<T>();
             if (filter != null)
             {
@@ -47,6 +47,18 @@ namespace UnitOfWorkCrud.Repository
 
             }
             return await query.ToListAsync();
+        }
+
+        public void Update(T entity)
+        {
+            _db.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        
+        public void DeleteRange(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
         }
     }
 }
